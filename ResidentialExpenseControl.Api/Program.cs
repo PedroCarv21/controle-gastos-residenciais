@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using ResidentialExpenseControl.Api.Data;
+using ResidentialExpenseControl.Api.Repositories;
+using ResidentialExpenseControl.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +12,9 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(
         builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
+builder.Services.AddScoped<PersonRepository>();
+builder.Services.AddScoped<PersonService>();
 
 var app = builder.Build();
 
