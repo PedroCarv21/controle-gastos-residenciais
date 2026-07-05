@@ -44,7 +44,7 @@ public class TransactionService
         {
             Id = Guid.NewGuid(),
             Description = dto.Description.Trim(),
-            Amount = dto.Amount,
+            Value = dto.Value,
             Type = dto.Type,
             PersonId = person.Id,
             Person = person
@@ -61,7 +61,7 @@ public class TransactionService
         {
             Id = transaction.Id,
             Description = transaction.Description,
-            Amount = transaction.Amount,
+            Value = transaction.Value,
             Type = transaction.Type,
             PersonId = transaction.PersonId,
             PersonName = transaction.Person?.Name ?? string.Empty

@@ -10,7 +10,7 @@ public class TransactionRequestDTO
     public string Description { get; set; } = string.Empty;
 
     [Range(0.01, double.MaxValue)]
-    public decimal Amount { get; set; }
+    public decimal Value { get; set; }
 
     [Required]
     public TransactionType Type { get; set; }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ResidentialExpenseControl.Api.DTOs.Person;
+using ResidentialExpenseControl.Api.DTOs.Total;
 using ResidentialExpenseControl.Api.Services;
 using System;
 using System.Collections.Generic;
@@ -45,5 +46,13 @@ public class PersonController : ControllerBase
         }
 
         return NoContent();
+    }
+
+    [HttpGet("totals")]
+    public async Task<ActionResult<TotalsResponseDTO>> GetTotals()
+    {
+        var totals = await _personService.GetTotalsAsync();
+
+        return Ok(totals);
     }
 }

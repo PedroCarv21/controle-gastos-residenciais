@@ -8,7 +8,7 @@ public class TransactionResponseDTO
 
     public string Description { get; set; } = string.Empty;
 
-    public decimal Amount { get; set; }
+    public decimal Value { get; set; }
 
     public TransactionType Type { get; set; }
 

@@ -19,6 +19,7 @@ public class PersonRepository
     public async Task<List<Person>> GetAllAsync()
     {
         return await _context.People
+            .Include(person => person.Transactions)
             .AsNoTracking()
             .OrderBy(person => person.Name)
             .ToListAsync();
