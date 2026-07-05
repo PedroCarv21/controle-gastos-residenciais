@@ -12,3 +12,7 @@ export async function createPerson(person: PersonRequest) {
     const response = await api.post<Person>("/people", person);
     return response.data;
 }
+
+export async function deletePerson(id: string) {
+    await api.delete(`/people/${id}`);
+}

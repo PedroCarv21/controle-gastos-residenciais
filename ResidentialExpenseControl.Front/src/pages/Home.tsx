@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import type { Person } from "../types/person";
-import { createPerson, getPeople } from "../api/personApi";
+import { createPerson, deletePerson, getPeople } from "../api/personApi";
 
 export default function Home() {
   const [people, setPeople] = useState<Person[]>([]);
@@ -38,6 +38,18 @@ export default function Home() {
     await loadPeople();
   }
 
+  async function handleDeletePerson(id: string) {
+    const confirmed = confirm("Deseja realmente excluir esta pessoa?");
+
+    if (!confirmed) {
+      return;
+    }
+
+    await deletePerson(id);
+
+    await loadPeople();
+  }
+
   return (
     <>
       <h1>Controle de Gastos Residenciais</h1>
@@ -64,6 +76,12 @@ export default function Home() {
           {people.map((person) => (
             <li key={person.id}>
               {person.name} ({person.age} anos)
+              <button
+                onClick={() => handleDeletePerson(person.id)}
+                style={{ marginLeft: "10px" }}
+              >
+                Excluir
+              </button>
             </li>
           ))}
         </ul>
