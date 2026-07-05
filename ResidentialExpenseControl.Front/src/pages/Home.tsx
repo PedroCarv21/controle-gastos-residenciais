@@ -1,33 +1,73 @@
-import { useEffect } from "react";
-import { getPeople } from "../api/personApi";
+import { useEffect, useState } from "react";
+import type { Person } from "../types/person";
+import { createPerson, getPeople } from "../api/personApi";
 
-function Home() {
+export default function Home() {
+  const [people, setPeople] = useState<Person[]>([]);
+  const [name, setName] = useState("");
+  const [age, setAge] = useState("");
 
-    useEffect(() => {
+  useEffect(() => {
+    loadPeople();
+  }, []);
 
-        async function loadPeople() {
+  async function loadPeople() {
+    const data = await getPeople();
+    setPeople(data);
+  }
 
-            try {
+  async function handleCreatePerson() {
+    if (!name.trim()) {
+      alert("Informe um nome.");
+      return;
+    }
 
-                const people = await getPeople();
+    if (!age) {
+      alert("Informe uma idade.");
+      return;
+    }
 
-                console.log(people);
+    await createPerson({
+      name: name.trim(),
+      age: Number(age),
+    });
 
-            } catch (error) {
+    setName("");
+    setAge("");
 
-                console.error(error);
+    await loadPeople();
+  }
 
-            }
+  return (
+    <>
+      <h1>Controle de Gastos Residenciais</h1>
 
-        }
+      <div>
+        <input
+          type="text"
+          placeholder="Nome"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
 
-        loadPeople();
+        <input
+          type="number"
+          placeholder="Idade"
+          value={age}
+          onChange={(e) => setAge(e.target.value)}
+        />
 
-    }, []);
+        <button onClick={handleCreatePerson}>Cadastrar</button>
+        <h2>Pessoas</h2>
 
-    return (
-        <h1>Residential Expense Control</h1>
-    );
+        <ul>
+          {people.map((person) => (
+            <li key={person.id}>
+              {person.name} ({person.age} anos)
+            </li>
+          ))}
+        </ul>
+      </div>
+    </>
+  );
 }
-
-export default Home;
