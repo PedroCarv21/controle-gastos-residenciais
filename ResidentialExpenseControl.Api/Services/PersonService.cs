@@ -16,11 +16,11 @@ public class PersonService
         _personRepository = personRepository;
     }
 
-    public async Task<List<PersonResponseDto>> GetAllAsync()
+    public async Task<List<PersonResponseDTO>> GetAllAsync()
     {
         var people = await _personRepository.GetAllAsync();
 
-        return people.Select(person => new PersonResponseDto
+        return people.Select(person => new PersonResponseDTO
         {
             Id = person.Id,
             Name = person.Name,
@@ -28,7 +28,7 @@ public class PersonService
         }).ToList();
     }
 
-    public async Task<PersonResponseDto> CreateAsync(CreatePersonDto dto)
+    public async Task<PersonResponseDTO> CreateAsync(PersonRequestDTO dto)
     {
         var person = new Person
         {
@@ -39,7 +39,7 @@ public class PersonService
 
         await _personRepository.CreateAsync(person);
 
-        return new PersonResponseDto
+        return new PersonResponseDTO
         {
             Id = person.Id,
             Name = person.Name,

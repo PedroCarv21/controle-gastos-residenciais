@@ -8,6 +8,6 @@ public class PersonRequestDTO
     [MaxLength(100)]
     public string Name { get; set; } = string.Empty;
 
-    [Range(0, 150)]
+    [Range(0, 120)]
     public int Age { get; set; }
 }
