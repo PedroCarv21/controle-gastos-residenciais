@@ -38,12 +38,10 @@ public class PersonRepository
         return person;
     }
 
-    public async Task<bool> DeleteAsync(Person person)
+    public async Task DeleteAsync(Person person)
     {
         _context.People.Remove(person);
 
         await _context.SaveChangesAsync();
-
-        return true;
     }
 }

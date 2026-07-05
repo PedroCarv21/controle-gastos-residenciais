@@ -16,12 +16,12 @@ public class AppDbContext : DbContext
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
-		base.OnModelCreating(modelBuilder);
-
 		modelBuilder.Entity<Person>()
 			.HasMany(person => person.Transactions)
 			.WithOne(transaction => transaction.Person)
 			.HasForeignKey(transaction => transaction.PersonId)
 			.OnDelete(DeleteBehavior.Cascade);
+		
+			base.OnModelCreating(modelBuilder);
 	}
 }

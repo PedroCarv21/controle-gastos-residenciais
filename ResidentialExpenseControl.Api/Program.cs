@@ -19,6 +19,9 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<PersonRepository>();
 builder.Services.AddScoped<PersonService>();
 
+builder.Services.AddScoped<TransactionRepository>();
+builder.Services.AddScoped<TransactionService>();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())

@@ -4,7 +4,7 @@ namespace ResidentialExpenseControl.Api.DTOs.Person;
 
 public class PersonRequestDTO
 {
-    [Required(ErrorMessage = "The name is required.")]
+    [Required(ErrorMessage = "Name is needed.")]
     [MaxLength(100)]
     public string Name { get; set; } = string.Empty;
 

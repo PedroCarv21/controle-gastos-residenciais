@@ -1,12 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using ResidentialExpenseControl.Api.Enums;
 
-namespace ResidentialExpenseControl.Api.Models;
+namespace ResidentialExpenseControl.Api.DTOs.Transaction;
 
-public class Transaction
+public class TransactionRequestDTO
 {
-    public Guid Id { get; set; }
-
     [Required]
     [MaxLength(200)]
     public string Description { get; set; } = string.Empty;
@@ -14,9 +12,9 @@ public class Transaction
     [Range(0.01, double.MaxValue)]
     public decimal Amount { get; set; }
 
+    [Required]
     public TransactionType Type { get; set; }
 
+    [Required]
     public Guid PersonId { get; set; }
-
-    public Person Person { get; set; } = null!;
 }
