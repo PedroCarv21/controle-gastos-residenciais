@@ -16,6 +16,7 @@ public class PersonRepository
         _context = context;
     }
 
+   
     public async Task<List<Person>> GetAllAsync()
     {
         return await _context.People
@@ -30,6 +31,7 @@ public class PersonRepository
         return await _context.People.FindAsync(id);
     }
 
+   
     public async Task<Person> CreateAsync(Person person)
     {
         _context.People.Add(person);
@@ -39,6 +41,7 @@ public class PersonRepository
         return person;
     }
 
+   
     public async Task DeleteAsync(Person person)
     {
         _context.People.Remove(person);

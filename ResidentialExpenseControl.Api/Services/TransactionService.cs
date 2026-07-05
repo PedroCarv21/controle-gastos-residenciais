@@ -5,11 +5,21 @@ using ResidentialExpenseControl.Api.Repositories;
 
 namespace ResidentialExpenseControl.Api.Services;
 
+/// <summary>
+/// This class establishes the business rules for each of the methods 
+/// that will be used to make requests in the table containing the transaction records.
+/// </summary>
 public class TransactionService
 {
     private readonly TransactionRepository _transactionRepository;
     private readonly PersonRepository _personRepository;
 
+    /// <summary>
+    ///  Initializing the TransactionRepository and the PersonRepository
+    ///  via the constructor.
+    /// </summary>
+    /// <param name="transactionRepository">TransactionRepository object</param>
+    /// <param name="personRepository">PersonRepository object</param>
     public TransactionService(
         TransactionRepository transactionRepository,
         PersonRepository personRepository)
@@ -18,6 +28,10 @@ public class TransactionService
         _personRepository = personRepository;
     }
 
+    /// <summary>
+    /// Lists all transactions registered in the system.
+    /// </summary>
+    /// <returns>List of objects of type TransactionResponseDTO.</returns>
     public async Task<List<TransactionResponseDTO>> GetAllAsync()
     {
         var transactions = await _transactionRepository.GetAllAsync();
@@ -25,15 +39,27 @@ public class TransactionService
         return transactions.Select(ToResponse).ToList();
     }
 
+    /// <summary>
+    /// It receives a transaction's data, automatically generates an ID, 
+    /// and saves this information to the database.
+    /// </summary>
+    /// <param name="dto"></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public async Task<TransactionResponseDTO> CreateAsync(TransactionRequestDTO dto)
     {
         var person = await _personRepository.GetByIdAsync(dto.PersonId);
-
+        // If the ID does not belong to any registered person,
+        // the result will be the message 'ID incorreto'.
         if (person is null)
         {
             throw new ArgumentException("ID incorreto.");
         }
 
+        //If the person is under 18 years of age and the transaction type is income,
+        //the result will be the error message:
+        //'Pessoas menores de idade só podem possuir despesas.'
         if (person.Age < 18 && dto.Type == TransactionType.Income)
         {
             throw new InvalidOperationException(
@@ -55,6 +81,11 @@ public class TransactionService
         return ToResponse(transaction);
     }
 
+    /// <summary>
+    /// Transfers data from a Transaction object to a TransactionResponseDTO object.
+    /// </summary>
+    /// <param name="transaction">Transaction object</param>
+    /// <returns>TransactionResponseDTO object</returns>
     private static TransactionResponseDTO ToResponse(Transaction transaction)
     {
         return new TransactionResponseDTO
