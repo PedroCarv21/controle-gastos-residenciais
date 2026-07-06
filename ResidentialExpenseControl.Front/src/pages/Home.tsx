@@ -7,6 +7,9 @@ import type { Transaction } from "../types/transaction";
 import TransactionList from "../components/TransactionList";
 import { getTransactions } from "../api/transactionApi";
 import TransactionForm from "../components/TransactionForm";
+import "./Home.css";
+import Summary from "../components/Summary";
+import axios from "axios";
 
 export default function Home() {
   const [people, setPeople] = useState<Person[]>([]);
@@ -35,15 +38,24 @@ export default function Home() {
       return;
     }
 
-    await createPerson({
-      name: name.trim(),
-      age: Number(age),
-    });
+    try {
+      await createPerson({
+        name: name.trim(),
+        age: Number(age),
+      });
 
-    setName("");
-    setAge("");
+      setName("");
+      setAge("");
 
-    await loadPeople();
+      await loadPeople();
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        alert(error.response?.data.message);
+        return;
+      }
+
+      alert("Erro inesperado.");
+    }
   }
 
   async function handleDeletePerson(id: string) {
@@ -62,25 +74,33 @@ export default function Home() {
     const data = await getTransactions();
     setTransactions(data);
   }
+
   return (
-    <>
+    <div className="home">
       <h1>Controle de Gastos Residenciais</h1>
 
-      <PersonForm
-        name={name}
-        age={age}
-        onNameChange={setName}
-        onAgeChange={setAge}
-        onSubmit={handleCreatePerson}
-      />
+      <Summary transactions={transactions} />
 
-      <PersonList people={people} onDelete={handleDeletePerson} />
+      <div className="forms">
+        <PersonForm
+          name={name}
+          age={age}
+          onNameChange={setName}
+          onAgeChange={setAge}
+          onSubmit={handleCreatePerson}
+        />
 
-      <TransactionForm
-        people={people}
-        onTransactionCreated={loadTransactions}
-      />
-      <TransactionList transactions={transactions} />
-    </>
+        <TransactionForm
+          people={people}
+          onTransactionCreated={loadTransactions}
+        />
+      </div>
+
+      <div className="lists">
+        <PersonList people={people} onPersonDeleted={handleDeletePerson} />
+
+        <TransactionList transactions={transactions} />
+      </div>
+    </div>
   );
 }

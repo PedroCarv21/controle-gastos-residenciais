@@ -3,6 +3,8 @@ using ResidentialExpenseControl.Api.Data;
 using ResidentialExpenseControl.Api.Repositories;
 using ResidentialExpenseControl.Api.Services;
 using System.Reflection;
+using Microsoft.AspNetCore.Mvc;
+using ResidentialExpenseControl.Api.Responses;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +19,24 @@ builder.Services.AddCors(options =>
     });
 });
 
-builder.Services.AddControllers();
+builder.Services
+    .AddControllers()
+    .ConfigureApiBehaviorOptions(options =>
+    {
+        options.InvalidModelStateResponseFactory = context =>
+        {
+            var firstError = context.ModelState
+                .Values
+                .SelectMany(value => value.Errors)
+                .Select(error => error.ErrorMessage)
+                .FirstOrDefault();
+
+            return new BadRequestObjectResult(new ErrorResponse
+            {
+                Message = firstError ?? "Dados inválidos."
+            });
+        };
+    });
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>

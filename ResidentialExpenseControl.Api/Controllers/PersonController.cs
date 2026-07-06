@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ResidentialExpenseControl.Api.DTOs.Person;
 using ResidentialExpenseControl.Api.DTOs.Total;
+using ResidentialExpenseControl.Api.Responses;
 using ResidentialExpenseControl.Api.Services;
 using System;
 using System.Collections.Generic;
@@ -30,6 +31,24 @@ public class PersonController : ControllerBase
     }
 
     /// <summary>
+    /// Capture the person's ID.
+    /// </summary>
+    /// <param name="id">Guid id</param>
+    /// <returns>PersonResponseDTO object</returns>
+    [HttpGet("{id:guid}")]
+    public async Task<ActionResult<PersonResponseDTO>> GetById(Guid id)
+    {
+        var person = await _personService.GetByIdAsync(id);
+
+        if (person is null)
+        {
+            return NotFound();
+        }
+
+        return Ok(person);
+    }
+
+    /// <summary>
     /// List all people and return a 200 status.
     /// </summary>
     /// <returns>List of PersonResponseDTO objects</returns>
@@ -50,9 +69,22 @@ public class PersonController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<PersonResponseDTO>> Create(PersonRequestDTO dto)
     {
-        var person = await _personService.CreateAsync(dto);
+        try
+        {
+            var person = await _personService.CreateAsync(dto);
 
-        return StatusCode(StatusCodes.Status201Created, person);
+            return CreatedAtAction(
+                nameof(GetById),
+                new { id = person.Id },
+                person);
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new ErrorResponse
+            {
+                Message = ex.Message
+            });
+        }
     }
 
     /// <summary>

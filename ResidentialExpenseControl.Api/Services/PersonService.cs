@@ -41,6 +41,18 @@ public class PersonService
         };
     }
 
+    public async Task<PersonResponseDTO?> GetByIdAsync(Guid id)
+    {
+        var person = await _personRepository.GetByIdAsync(id);
+
+        if (person is null)
+        {
+            return null;
+        }
+
+        return ToResponse(person);
+    }
+
     /// <summary>
     /// Lists all people registered in the system.
     /// </summary>
@@ -67,6 +79,13 @@ public class PersonService
             Name = dto.Name.Trim(),
             Age = dto.Age!.Value
         };
+
+        var exists = await _personRepository.ExistsByNameAsync(dto.Name);
+
+        if (exists)
+        {
+            throw new InvalidOperationException("Já existe uma pessoa com esse nome.");
+        }
 
         await _personRepository.CreateAsync(person);
 

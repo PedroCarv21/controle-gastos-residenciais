@@ -1,15 +1,3 @@
-export function getTransactionTypeName(type: number): string {
-
-    switch (type) {
-
-        case 0:
-            return "Receita";
-
-        case 1:
-            return "Despesa";
-
-        default:
-            return "Desconhecido";
-    }
-
+export function getTransactionTypeName(type: number) {
+    return type === 0 ? "Despesa" : "Receita";
 }

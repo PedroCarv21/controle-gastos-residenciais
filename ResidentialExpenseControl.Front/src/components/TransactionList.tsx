@@ -1,5 +1,6 @@
 import type { Transaction } from "../types/transaction";
 import TransactionItem from "./TransactionItem";
+import "./TransactionList.css";
 
 interface Props {
     transactions: Transaction[];
@@ -8,7 +9,7 @@ interface Props {
 export default function TransactionList({ transactions }: Props) {
 
     return (
-        <>
+        <div className="transaction-list">
             <h2>Transações</h2>
             <ul>
                 {transactions.map(transaction => (
@@ -18,6 +19,6 @@ export default function TransactionList({ transactions }: Props) {
                     />
                 ))}
             </ul>
-        </>
+        </div>
     );
 }

@@ -1,11 +1,15 @@
 import { useState } from "react";
 import { createTransaction } from "../api/transactionApi";
 import type { Person } from "../types/person";
+import "./TransactionForm.css";
+import axios from "axios";
 
 interface Props {
     people: Person[];
     onTransactionCreated: () => void;
 }
+
+
 
 export default function TransactionForm({
     people,
@@ -18,29 +22,40 @@ export default function TransactionForm({
     const [personId, setPersonId] = useState("");
 
     async function handleSubmit(event: React.FormEvent) {
-
         event.preventDefault();
-
-        await createTransaction({
-            description,
-            value: Number(value),
-            type,
-            personId
-        });
-
-        setDescription("");
-        setValue("");
-        setType(0);
-        setPersonId("");
-
-        onTransactionCreated();
+    
+        try {
+            await createTransaction({
+                description,
+                value: Number(value),
+                type,
+                personId
+            });
+    
+            setDescription("");
+            setValue("");
+            setType(0);
+            setPersonId("");
+    
+            onTransactionCreated();
+    
+        } catch (error) {
+    
+            if (axios.isAxiosError(error)) {
+                alert(error.response?.data.message ?? "Não foi possível cadastrar a transação.");
+                return;
+            }
+    
+            alert("Erro inesperado.");
+        }
     }
 
     return (
         <>
+            <div className="card">
             <h2>Nova Transação</h2>
 
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="transaction-form">
 
                 <select
                     value={personId}
@@ -64,7 +79,6 @@ export default function TransactionForm({
 
                 </select>
 
-                <br /><br />
 
                 <input
                     type="text"
@@ -74,7 +88,6 @@ export default function TransactionForm({
                     required
                 />
 
-                <br /><br />
 
                 <input
                     type="number"
@@ -85,29 +98,28 @@ export default function TransactionForm({
                     required
                 />
 
-                <br /><br />
 
                 <select
                     value={type}
                     onChange={(event) => setType(Number(event.target.value))}
                 >
-                    <option value={0}>
+                    <option value={1}>
                         Receita
                     </option>
 
-                    <option value={1}>
+                    <option value={0}>
                         Despesa
                     </option>
 
                 </select>
 
-                <br /><br />
 
                 <button type="submit">
                     Cadastrar
                 </button>
 
             </form>
+            </div>
         </>
     );
 }

@@ -31,7 +31,11 @@ public class PersonRepository
         return await _context.People.FindAsync(id);
     }
 
-   
+    public async Task<bool> ExistsByNameAsync(string name)
+    {
+        return await _context.People
+            .AnyAsync(p => p.Name.ToLower() == name.ToLower());
+    }
     public async Task<Person> CreateAsync(Person person)
     {
         _context.People.Add(person);

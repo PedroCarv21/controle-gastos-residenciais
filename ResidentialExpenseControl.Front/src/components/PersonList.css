@@ -1,0 +1,41 @@
+.person-list {
+    background: white;
+    padding: 24px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.08);
+}
+
+.person-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.person-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.person-list li:last-child {
+    border-bottom: none;
+}
+
+.person-list button {
+    background: #dc2626;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.person-list button:hover {
+    background: #b91c1c;
+}
+
+.delete-button {
+    margin-left: 10px;
+}
