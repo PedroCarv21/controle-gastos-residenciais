@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import type { Person } from "../types/person";
 import { createPerson, deletePerson, getPeople } from "../api/personApi";
+import PersonForm from "../components/PersonForm";
+import PersonList from "../components/PersonList";
 
 export default function Home() {
   const [people, setPeople] = useState<Person[]>([]);
@@ -54,38 +56,15 @@ export default function Home() {
     <>
       <h1>Controle de Gastos Residenciais</h1>
 
-      <div>
-        <input
-          type="text"
-          placeholder="Nome"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
+      <PersonForm
+        name={name}
+        age={age}
+        onNameChange={setName}
+        onAgeChange={setAge}
+        onSubmit={handleCreatePerson}
+      />
 
-        <input
-          type="number"
-          placeholder="Idade"
-          value={age}
-          onChange={(e) => setAge(e.target.value)}
-        />
-
-        <button onClick={handleCreatePerson}>Cadastrar</button>
-        <h2>Pessoas</h2>
-
-        <ul>
-          {people.map((person) => (
-            <li key={person.id}>
-              {person.name} ({person.age} anos)
-              <button
-                onClick={() => handleDeletePerson(person.id)}
-                style={{ marginLeft: "10px" }}
-              >
-                Excluir
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div>
+      <PersonList people={people} onDelete={handleDeletePerson} />
     </>
   );
 }
