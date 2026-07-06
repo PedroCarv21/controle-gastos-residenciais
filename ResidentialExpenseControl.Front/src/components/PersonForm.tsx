@@ -16,7 +16,7 @@ export default function PersonForm({
   onSubmit,
 }: PersonFormProps) {
   return (
-    <div className="card">
+    <div className="person-card">
       <h2>Nova Pessoa</h2>
       <form
         className="person-form"

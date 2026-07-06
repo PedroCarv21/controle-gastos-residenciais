@@ -24,3 +24,7 @@ export async function createTransaction(
 
     return response.data;
 }
+
+export async function deleteTransaction(id: string) {
+    await api.delete(`/transactions/${id}`);
+}

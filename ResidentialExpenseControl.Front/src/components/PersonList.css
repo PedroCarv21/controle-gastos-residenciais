@@ -1,8 +1,10 @@
 .person-list {
     background: white;
     padding: 24px;
-    border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0,0,0,.08);
+    background-color: #383838;
+    color: #fff;
+
 }
 
 .person-list ul {

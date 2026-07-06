@@ -52,7 +52,7 @@ export default function TransactionForm({
 
     return (
         <>
-            <div className="card">
+            <div className="transaction-card">
             <h2>Nova Transação</h2>
 
             <form onSubmit={handleSubmit} className="transaction-form">

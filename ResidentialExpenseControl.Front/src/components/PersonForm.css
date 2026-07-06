@@ -1,8 +1,9 @@
-.card {
-    background: white;
+.person-card {
     padding: 24px;
-    border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0,0,0,.08);
+    background-color: #fff;
+    background-color: #383838;
+    color: #fff;
 }
 
 .person-form {
@@ -14,15 +15,13 @@
 .person-form input {
     padding: 10px;
     border: 1px solid #dcdcdc;
-    border-radius: 6px;
     font-size: 16px;
 }
 
 .person-form button {
     padding: 10px;
     border: none;
-    border-radius: 6px;
-    background: #292929;
+    background: #121212;
     color: white;
     cursor: pointer;
 }

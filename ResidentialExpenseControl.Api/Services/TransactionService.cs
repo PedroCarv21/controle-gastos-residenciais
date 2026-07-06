@@ -82,6 +82,25 @@ public class TransactionService
     }
 
     /// <summary>
+    /// This method receives an ID and checks if it corresponds to a registered person. 
+    /// If it does, the person will be deleted.
+    /// </summary>
+    /// <param name="id">Guid id</param>
+    public async Task<bool> DeleteAsync(Guid id)
+    {
+        var transaction = await _transactionRepository.GetByIdAsync(id);
+
+        if (transaction is null)
+        {
+            return false;
+        }
+
+        await _transactionRepository.DeleteAsync(transaction);
+
+        return true;
+    }
+
+    /// <summary>
     /// Transfers data from a Transaction object to a TransactionResponseDTO object.
     /// </summary>
     /// <param name="transaction">Transaction object</param>

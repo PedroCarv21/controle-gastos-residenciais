@@ -1,29 +1,29 @@
-.card {
-    background: white;
+.transaction-card {
     padding: 24px;
-    border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0,0,0,.08);
+    background-color: #383838;
+    color: #fff;
+
 }
 
 .transaction-form {
     display: flex;
     flex-direction: column;
     gap: 12px;
+
 }
 
 .transaction-form input,
 .transaction-form select {
     padding: 10px;
     border: 1px solid #dcdcdc;
-    border-radius: 6px;
     font-size: 16px;
 }
 
 .transaction-form button {
     padding: 10px;
     border: none;
-    border-radius: 6px;
-    background: #292929;
+    background: #121212;
     color: white;
     cursor: pointer;
 }

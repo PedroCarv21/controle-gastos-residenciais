@@ -69,4 +69,23 @@ public class TransactionController : ControllerBase
             });
         }
     }
+
+
+    /// <summary>
+    /// This method deletes a person using the provided ID 
+    /// and returns a 204 status code.
+    /// </summary>
+    /// <param name="id">Guid id</param>
+    [HttpDelete("{id:guid}")]
+    public async Task<IActionResult> Delete(Guid id)
+    {
+        var deleted = await _transactionService.DeleteAsync(id);
+
+        if (!deleted)
+        {
+            return NotFound();
+        }
+
+        return NoContent();
+    }
 }

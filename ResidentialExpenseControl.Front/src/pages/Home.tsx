@@ -5,7 +5,7 @@ import PersonForm from "../components/PersonForm";
 import PersonList from "../components/PersonList";
 import type { Transaction } from "../types/transaction";
 import TransactionList from "../components/TransactionList";
-import { getTransactions } from "../api/transactionApi";
+import { deleteTransaction, getTransactions } from "../api/transactionApi";
 import TransactionForm from "../components/TransactionForm";
 import "./Home.css";
 import Summary from "../components/Summary";
@@ -76,6 +76,18 @@ export default function Home() {
     setTransactions(data);
   }
 
+  async function handleDeleteTransaction(id: string) {
+    const confirmed = confirm("Deseja realmente excluir esta transação?");
+
+    if (!confirmed) {
+      return;
+    }
+
+    await deleteTransaction(id);
+
+    await loadTransactions();
+  }
+
   return (
     <div className="home">
       <h1>Controle de Gastos Residenciais</h1>
@@ -100,7 +112,7 @@ export default function Home() {
       <div className="lists">
         <PersonList people={people} onPersonDeleted={handleDeletePerson} />
 
-        <TransactionList transactions={transactions} />
+        <TransactionList transactions={transactions} onTransactionDeleted={handleDeleteTransaction} />
       </div>
     </div>
   );

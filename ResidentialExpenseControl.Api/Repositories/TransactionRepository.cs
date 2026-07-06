@@ -13,6 +13,13 @@ public class TransactionRepository
         _context = context;
     }
 
+    public async Task<Transaction?> GetByIdAsync(Guid id)
+    {
+        return await _context.Transactions
+            .Include(transaction => transaction.Person)
+            .FirstOrDefaultAsync(transaction => transaction.Id == id);
+    }
+
     public async Task<List<Transaction>> GetAllAsync()
     {
         return await _context.Transactions
@@ -29,5 +36,14 @@ public class TransactionRepository
         await _context.SaveChangesAsync();
 
         return transaction;
+    }
+
+    public async Task<bool> DeleteAsync(Transaction transaction)
+    {
+        _context.Transactions.Remove(transaction);
+
+        await _context.SaveChangesAsync();
+
+        return true;
     }
 }

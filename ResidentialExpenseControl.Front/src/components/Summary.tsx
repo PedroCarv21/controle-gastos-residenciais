@@ -10,11 +10,11 @@ export default function Summary({
 }: SummaryProps) {
 
     const totalIncome = transactions
-        .filter(t => t.type === 0)
+        .filter(t => t.type === 1)
         .reduce((sum, t) => sum + t.value, 0);
 
     const totalExpense = transactions
-        .filter(t => t.type === 1)
+        .filter(t => t.type === 0)
         .reduce((sum, t) => sum + t.value, 0);
 
     const balance = totalIncome - totalExpense;

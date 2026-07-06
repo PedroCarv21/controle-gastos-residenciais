@@ -4,9 +4,10 @@ import "./TransactionList.css";
 
 interface Props {
     transactions: Transaction[];
+    onTransactionDeleted: (id: string) => void | Promise<void>;
 }
 
-export default function TransactionList({ transactions }: Props) {
+export default function TransactionList({ transactions, onTransactionDeleted }: Props) {
 
     return (
         <div className="transaction-list">
@@ -16,6 +17,7 @@ export default function TransactionList({ transactions }: Props) {
                     <TransactionItem
                         key={transaction.id}
                         transaction={transaction}
+                        onDelete={onTransactionDeleted}
                     />
                 ))}
             </ul>
