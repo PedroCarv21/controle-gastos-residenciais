@@ -6,6 +6,7 @@ import PersonList from "../components/PersonList";
 import type { Transaction } from "../types/transaction";
 import TransactionList from "../components/TransactionList";
 import { getTransactions } from "../api/transactionApi";
+import TransactionForm from "../components/TransactionForm";
 
 export default function Home() {
   const [people, setPeople] = useState<Person[]>([]);
@@ -75,6 +76,10 @@ export default function Home() {
 
       <PersonList people={people} onDelete={handleDeletePerson} />
 
+      <TransactionForm
+        people={people}
+        onTransactionCreated={loadTransactions}
+      />
       <TransactionList transactions={transactions} />
     </>
   );
