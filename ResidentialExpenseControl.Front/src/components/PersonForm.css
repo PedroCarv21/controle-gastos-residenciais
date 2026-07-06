@@ -22,11 +22,11 @@
     padding: 10px;
     border: none;
     border-radius: 6px;
-    background: #2563eb;
+    background: #292929;
     color: white;
     cursor: pointer;
 }
 
 .person-form button:hover {
-    background: #1d4ed8;
+    background: #4A4A4A;
 }

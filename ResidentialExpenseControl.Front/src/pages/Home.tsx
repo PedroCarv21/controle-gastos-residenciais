@@ -68,6 +68,7 @@ export default function Home() {
     await deletePerson(id);
 
     await loadPeople();
+    await loadTransactions();
   }
 
   async function loadTransactions() {
