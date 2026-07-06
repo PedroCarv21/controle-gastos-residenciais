@@ -3,14 +3,19 @@ import type { Person } from "../types/person";
 import { createPerson, deletePerson, getPeople } from "../api/personApi";
 import PersonForm from "../components/PersonForm";
 import PersonList from "../components/PersonList";
+import type { Transaction } from "../types/transaction";
+import TransactionList from "../components/TransactionList";
+import { getTransactions } from "../api/transactionApi";
 
 export default function Home() {
   const [people, setPeople] = useState<Person[]>([]);
   const [name, setName] = useState("");
   const [age, setAge] = useState("");
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
 
   useEffect(() => {
     loadPeople();
+    loadTransactions();
   }, []);
 
   async function loadPeople() {
@@ -52,6 +57,10 @@ export default function Home() {
     await loadPeople();
   }
 
+  async function loadTransactions() {
+    const data = await getTransactions();
+    setTransactions(data);
+  }
   return (
     <>
       <h1>Controle de Gastos Residenciais</h1>
@@ -65,6 +74,8 @@ export default function Home() {
       />
 
       <PersonList people={people} onDelete={handleDeletePerson} />
+
+      <TransactionList transactions={transactions} />
     </>
   );
 }
